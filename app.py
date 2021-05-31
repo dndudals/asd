@@ -1,10 +1,30 @@
 from flask import Flask, render_template
 from flask.globals import request
+from test import idpw_ck
 app = Flask(__name__)
 
 @app.route('/')
 def hello():
     return render_template('main.html')
+
+@app.route('/signup', methods=['GET', 'POST'])
+def signup():
+    if request.method == "GET":
+        return render_template('signup.html')
+    else:
+        name = request.form['userid']
+        name = request.form['pwd']
+        return '<b>{}</b> 회원가입이 완료 되었습니다.'.format(name)
+
+@app.route('/signin', methods=['GET', 'POST'])
+def signin():   
+    if request.method == "GET":
+        return render_template('signin.html')
+    else:
+        userid = request.form['userid']
+        pwd = request.form['pwd']
+        idpw_ck(userid, pwd)
+        return '<b>{}</b> 로그인 완료 되었습니다.'.format(userid, pwd)
 
 @app.route('/baseball')
 def baseball():
